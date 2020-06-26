@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - cherry
+  - gem
+  - ground
   layers:
   - Default
   - TransparentFX

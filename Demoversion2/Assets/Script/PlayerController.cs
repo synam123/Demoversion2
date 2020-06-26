@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,7 +12,15 @@ public class PlayerController : MonoBehaviour
     private enum State {idle ,running , jumping,falling};
     private State state = State.idle;
     private Collider2D coll;
-   [SerializeField] private LayerMask ground; 
+    [SerializeField] private int Coin = 0;
+    [SerializeField] private Text Cointext;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float jumForce = 10f;
+    [SerializeField] private int hp = 6;
+    public GameObject pnlEndGame;
+    
+    [SerializeField] private Text hptext;
+    [SerializeField] private LayerMask ground; 
  
 
 
@@ -32,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
         if(hDirection < 0)
         {
-            rb.velocity = new Vector2(-5, rb.velocity.y);
+            rb.velocity = new Vector2(-speed, rb.velocity.y);
             transform.localScale = new Vector2(-1, 1);
             
         }
@@ -40,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
         else if(hDirection > 0 )
         {
-            rb.velocity = new Vector2(5, rb.velocity.y);
+            rb.velocity = new Vector2(speed, rb.velocity.y);
             transform.localScale = new Vector2(1, 1);
           
         }
@@ -52,15 +62,42 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && coll.IsTouchingLayers(ground))
         {
-            rb.velocity = new Vector2(rb.velocity.x, 15f);
+            rb.velocity = new Vector2(rb.velocity.x, jumForce);
 
             state = State.jumping;
         }
 
         VelocityState ();
         anim.SetInteger("state", (int)state);
+        
     }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            hp = hp - 1;
+            hptext.text = hp.ToString();
+            if (hp <= 0)
+            {
+                pnlEndGame.SetActive(true);
+                Time.timeScale = 0;
+            }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "gem")
+        Destroy(collision.gameObject);
+        Coin += 100;
+        Cointext.text = Coin.ToString();
+      
+        if (collision.tag == "cherry")
+        Destroy(collision.gameObject);
+        Coin += 10;
+        Cointext.text = Coin.ToString();
+       
 
+    }
     private void VelocityState()
     {
         if(state == State.jumping)
@@ -88,4 +125,5 @@ public class PlayerController : MonoBehaviour
         }
       
     }
+    
 }
