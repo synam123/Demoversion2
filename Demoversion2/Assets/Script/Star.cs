@@ -8,7 +8,7 @@ public class Star : MonoBehaviour
     public GameObject pnlStart;
     public bool pause = false;
 
-    void Start()
+  void Start()
     {
         pnlStart.SetActive(false);
 
@@ -31,6 +31,7 @@ public class Star : MonoBehaviour
         {
             pnlStart.SetActive(false);
         }
+        
     }
     public void resume()
     {
@@ -40,11 +41,12 @@ public class Star : MonoBehaviour
 
 
     }
-
-
     public void quit()
     {
         Application.Quit();
     }
+
+
+
 
 }
