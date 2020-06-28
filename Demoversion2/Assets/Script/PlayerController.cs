@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && coll.IsTouchingLayers(ground))
         {
+            sound.Playsound("jumps");
             rb.velocity = new Vector2(rb.velocity.x, jumForce);
 
             state = State.jumping;
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
             hptext.text = hp.ToString();
             if (hp <= 0)
             {
+                sound.Playsound("death");
                 pnlEndGame.SetActive(true);
                 Time.timeScale = 0;
             }
