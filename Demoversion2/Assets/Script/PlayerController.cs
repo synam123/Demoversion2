@@ -20,15 +20,17 @@ public class PlayerController : MonoBehaviour
     public GameObject pnlEndGame;
     
     [SerializeField] private Text hptext;
-    [SerializeField] private LayerMask ground; 
- 
+    [SerializeField] private LayerMask ground;
 
+    public SoundManager sound;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
+
+        sound = GameObject.FindGameObjectWithTag("sound").GetComponent<SoundManager>();
     }
 
 
@@ -87,15 +89,20 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "gem")
-        Destroy(collision.gameObject);
-        Coin += 100;
-        Cointext.text = Coin.ToString();
-      
+        {
+            sound.Playsound("coins");
+            Destroy(collision.gameObject);
+            Coin += 100;
+            Cointext.text = Coin.ToString();
+        }
+
         if (collision.tag == "cherry")
-        Destroy(collision.gameObject);
-        Coin += 10;
-        Cointext.text = Coin.ToString();
-       
+        {
+            sound.Playsound("coins");
+            Destroy(collision.gameObject);
+            Coin += 10;
+            Cointext.text = Coin.ToString();
+        }       
 
     }
     private void VelocityState()

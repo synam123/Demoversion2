@@ -9,6 +9,7 @@ TagManager:
   - cherry
   - gem
   - ground
+  - sound
   layers:
   - Default
   - TransparentFX
